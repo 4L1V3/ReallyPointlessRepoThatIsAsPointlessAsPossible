@@ -1,0 +1,3 @@
+D:/coden/ShutdownTimer/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/coden/ShutdownTimer/cmake-build-debug/CMakeFiles/ShutdownTimer.dir
+D:/coden/ShutdownTimer/cmake-build-debug/CMakeFiles/rebuild_cache.dir
