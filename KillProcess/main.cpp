@@ -4,22 +4,33 @@
 #include <vector>
 #include <ctime>
 
-
 BOOL TerminateMyProcess(DWORD dwProcessId, UINT uExitCode);
+BOOL CheckString(std::wstring ProcessName);
 
 int main(int, char *[]) {
 
     clock_t startTime = clock(); //Start timer
 
     std::vector<DWORD> pids;
-    std::wstring targetProcessName;
+    std::wstring targetProcessName = L"0";
 
-    std::cout << "Please enter the name of the process you want to kill: ";
-    std::wcin >> targetProcessName;
+    while(targetProcessName == L"0" || CheckString(targetProcessName))
+    {
+        std::cout << "Please enter the name of the process you want to kill: ";
+        std::wcin >> targetProcessName;
+    }
+
     double secondsPassed;
-    double secondsToDelay;
-    std::cout << "Time to delay in min: ";
-    std::cin >> secondsToDelay;
+    double secondsToDelay = 0;
+
+    while(secondsToDelay <= 0)
+    {
+        std::cout << "Time to delay in min: ";
+        std::cin >> secondsToDelay;
+
+        if(secondsToDelay <= 0)
+            std::cout << "Please use a number greater than zero";
+    }
 
     secondsToDelay = secondsToDelay * 60;
 
@@ -28,12 +39,15 @@ int main(int, char *[]) {
     PROCESSENTRY32W entry; //current process
     entry.dwSize = sizeof entry;
 
-    if (!Process32FirstW(snap, &entry)) { //start with the first in snapshot
+    if (!Process32FirstW(snap, &entry)) //start with the first in snapshot
+    {
         return 0;
     }
 
-    do {
-        if (std::wstring(entry.szExeFile) == targetProcessName) {
+    do
+    {
+        if (std::wstring(entry.szExeFile) == targetProcessName)
+        {
             pids.emplace_back(entry.th32ProcessID); //name matches; add to list
         }
     } while (Process32NextW(snap, &entry)); //keep going until end of snapshot
@@ -49,7 +63,8 @@ int main(int, char *[]) {
         }
     }
 
-    for (int i(0); i < pids.size(); ++i) {
+    for (int i(0); i < pids.size(); ++i)
+    {
         std::cout << pids[i] << std::endl;
         TerminateMyProcess(pids[i],0);
     }
@@ -70,4 +85,14 @@ BOOL TerminateMyProcess(DWORD dwProcessId, UINT uExitCode)
     CloseHandle(hProcess);
 
     return result;
+}
+
+BOOL CheckString(std::wstring ProcessName)
+{
+    if(ProcessName.find(L".exe") > 0)
+        return false;
+    else
+        return true;
+
+    //TODO: check if string may be a critical process that should not be forced to shut down
 }
