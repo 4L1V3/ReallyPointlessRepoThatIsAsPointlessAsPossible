@@ -11,12 +11,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e697026-97ae-41a8-a600-18b4b8548584" name="Default" comment="added some lines to reduce the likeliness of doing unwanted things">
+    <list default="true" id="8e697026-97ae-41a8-a600-18b4b8548584" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/KillProcess.dir/main.cpp.obj" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/KillProcess.dir/main.cpp.obj" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/KillProcess.dir/objects.a" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/KillProcess.dir/objects.a" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/KillProcess.exe" afterPath="$PROJECT_DIR$/cmake-build-debug/KillProcess.exe" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -191,12 +190,20 @@
       <workItem from="1516798455728" duration="5534000" />
       <workItem from="1517222709863" duration="3176000" />
       <workItem from="1517418744750" duration="253000" />
-      <workItem from="1517528680086" duration="59000" />
+      <workItem from="1517528680086" duration="75000" />
     </task>
+    <task id="LOCAL-00001" summary="added some lines to reduce the likeliness of doing unwanted things">
+      <created>1517528752358</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1517528752359</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13973000" />
+    <option name="totallyTimeSpent" value="13989000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
