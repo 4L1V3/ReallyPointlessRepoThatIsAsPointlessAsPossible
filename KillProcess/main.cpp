@@ -14,25 +14,19 @@ int main(int, char *[]) {
     std::vector<DWORD> pids;
     std::wstring targetProcessName = L"0";
 
-    while(targetProcessName == L"0" || CheckString(targetProcessName))
-    {
-        std::cout << "Please enter the name of the process you want to kill: ";
-        std::wcin >> targetProcessName;
-    }
+    int setTimeScale;
 
     double secondsPassed;
     double secondsToDelay = 0;
 
-    while(secondsToDelay <= 0)
+    bool exists = false;
+
+    while(targetProcessName == L"0" || CheckString(targetProcessName))
     {
-        std::cout << "Time to delay in min: ";
-        std::cin >> secondsToDelay;
-
-        if(secondsToDelay <= 0)
-            std::cout << "Please use a number greater than zero";
+        std::cout << "Please enter the name of the process you want to kill: ";
+        std::wcin >> targetProcessName;
+        system("cls");
     }
-
-    secondsToDelay = secondsToDelay * 60;
 
     HANDLE snap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0); //all processes
 
@@ -49,27 +43,83 @@ int main(int, char *[]) {
         if (std::wstring(entry.szExeFile) == targetProcessName)
         {
             pids.emplace_back(entry.th32ProcessID); //name matches; add to list
+            exists = true;
         }
     } while (Process32NextW(snap, &entry)); //keep going until end of snapshot
 
     bool flag = true;
-    while(flag)
+
+    if(exists == true)
     {
-        secondsPassed = (clock() - startTime) / CLOCKS_PER_SEC;
-        if(secondsPassed >= secondsToDelay)
+        std::cout << "Set scale of timer:" << std::endl;
+        std::cout << "1: Seconds\n2: Minutes\n3: Hours\n4: Instant" << std::endl;
+        std::cin >> setTimeScale;
+
+        switch(setTimeScale)
         {
-            std::cout << secondsPassed << " seconds have passed" << std::endl;
-            flag = false;
+            case 1:
+                while (secondsToDelay <= 0) {
+                    std::cout << "Time to delay in seconds: ";
+                    std::cin >> secondsToDelay;
+
+                    if (secondsToDelay <= 0)
+                        std::cout << "Please use a number greater than zero";
+                };
+                break;
+            case 2:
+                while (secondsToDelay <= 0) {
+                    std::cout << "Time to delay in minutes: ";
+                    std::cin >> secondsToDelay;
+
+                    if (secondsToDelay <= 0)
+                        std::cout << "Please use a number greater than zero";
+                    secondsToDelay *= 60;
+                };
+                break;
+            case 3:
+                while (secondsToDelay <= 0) {
+                    std::cout << "Time to delay in hours: ";
+                    std::cin >> secondsToDelay;
+
+                    if (secondsToDelay <= 0)
+                        std::cout << "Please use a number greater than zero";
+                    secondsToDelay *= (3600);
+                };
+                break;
+            case 4:
+                secondsToDelay = 0;
+                break;
+            /*default:
+                std::cout << "Input was not correct, exiting . . .";
+                system(0);
+                break;*/
         }
-    }
 
-    for (int i(0); i < pids.size(); ++i)
+
+        while(flag)
+        {
+            secondsPassed = (clock() - startTime) / CLOCKS_PER_SEC;
+            if(secondsPassed >= secondsToDelay)
+            {
+                std::cout << secondsPassed << " seconds have passed" << std::endl;
+                flag = false;
+            }
+        }
+
+        for (int i(0); i < pids.size(); ++i) {
+            std::cout << pids[i] << std::endl;
+            TerminateMyProcess(pids[i], 0);
+        }
+
+        system(EXIT_SUCCESS);
+
+    }
+    else
     {
-        std::cout << pids[i] << std::endl;
-        TerminateMyProcess(pids[i],0);
+        std::cout << "Name of the process was not correct or it didn't exist." << std::endl << std::endl;
+        system("pause");
     }
 
-    system(EXIT_SUCCESS);
 }
 
 BOOL TerminateMyProcess(DWORD dwProcessId, UINT uExitCode)
